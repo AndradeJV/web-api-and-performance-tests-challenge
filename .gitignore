@@ -1,4 +1,14 @@
-/node_modules/
-/cypress/screenshots/
-/cypress/videos/
-/cypress/downloads/
+# JMeter
+*.log
+*.jtl
+/results/
+/report/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# IDE
+.idea/
+.vscode/
+*.swp
