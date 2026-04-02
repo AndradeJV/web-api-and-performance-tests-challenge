@@ -1,0 +1,47 @@
+name: Cypress E2E Tests
+
+on:
+  push:
+    branches:
+      - front-tests
+  pull_request:
+    branches:
+      - front-tests
+
+jobs:
+  cypress-tests:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout do código
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'npm'
+
+      - name: Instalar dependências
+        run: npm ci
+
+      - name: Executar testes Cypress
+        uses: cypress-io/github-action@v6
+        with:
+          browser: chrome
+
+      - name: Upload screenshots em caso de falha
+        uses: actions/upload-artifact@v4
+        if: failure()
+        with:
+          name: cypress-screenshots
+          path: cypress/screenshots
+          if-no-files-found: ignore
+
+      - name: Upload vídeos dos testes
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: cypress-videos
+          path: cypress/videos
+          if-no-files-found: ignore
